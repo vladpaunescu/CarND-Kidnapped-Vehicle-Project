@@ -11,6 +11,8 @@
 
 #include "helper_functions.h"
 
+#include <random>
+
 struct Particle {
 
 	int id;
@@ -30,7 +32,8 @@ class ParticleFilter {
 	// Number of particles to draw
 	int num_particles; 
 	
-	
+	// random engine
+	std::default_random_engine generator;
 	
 	// Flag, if filter is initialized
 	bool is_initialized;
@@ -113,6 +116,11 @@ public:
 	const bool initialized() const {
 		return is_initialized;
 	}
+
+private:
+	std::vector<LandmarkObs> filterLandmarks(const Particle& particle, const Map& map_landmarks, double sensor_range);
+	std::vector<LandmarkObs> transformObservations(const Particle& particle, const std::vector<LandmarkObs> &observations);
+
 };
 
 
